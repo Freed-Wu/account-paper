@@ -1,0 +1,67 @@
+\documentclass{njustthesis}
+\njustsetup{%
+  author = 吴振宇,
+  id = 916101630117,
+  discipline = 电子信息工程,
+  title = {高送转股票的分析预测及实证研究},
+  title* = {\footnotesize The analysis, forecast and empirical research of high transfer rate},
+  supervisor = 徐光华,
+  judge = 徐光华,
+}
+\usepackage[refpage]{nomencl}
+\makenomenclature%
+\renewcommand{\nomname}{术语}
+\renewcommand{\pagedeclaration}{，第1次出现在页~}
+\usepackage{minted}
+\setminted{%
+  breakanywhere,
+  breakanywheresymbolpre = {},
+  breaksymbolleft = {},
+  breaksymbolindentleftnchars = 0,
+}
+\usepackage{boxie}
+\usepackage{siunitx}
+\sisetup{mode = text}
+\usepackage{bm}
+\usepackage{physics}
+\usepackage{cases}
+\usepackage{csvsimple}
+\usepackage{booktabs}
+\usepackage{subfiles}
+\usepackage{subcaption}
+\usepackage{ulem}
+\usepackage{fvextra}
+\fvset{%
+  highlightcolor = {yellow!20, white},
+}
+\newtheorem{definition}{定义}
+\begin{document}
+
+\maketitle
+\copyrightpage%
+\subfile{sub/abstract}
+
+{%
+\frontmatter
+\tableofcontents
+\listoffigures
+\listoftables
+\printnomenclature%
+
+\mainmatter%
+\subfile{sub/introduction}
+\subfile{sub/establish}
+\subfile{sub/validation}
+\subfile{sub/evaluate}
+\subfile{sub/conclusion}
+
+\backmatter%
+\bibliography{bib/main}
+\subfile{sub/acknowledgement}
+}
+
+\appendix
+\subfile{sub/code}
+
+\end{document}
+

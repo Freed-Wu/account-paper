@@ -1,0 +1,25 @@
+\documentclass[../main]{subfiles}
+\begin{document}
+
+\chapter{模型的验证}%
+\label{cha:validation}
+
+基于章节~\ref{cha:establishment}的分析,我们选取均值方差法进行数据的标准化处理
+并使用Logistic和SVM 模型来对第七年进行预测。
+
+通过使用第六年和第五年的数据做为训练集，将去除是否高送转数据的第七年数据作为
+测试集代入模型，得到的概率最大的前50只股票以及其实际是否实施高送转的结果如
+表~\ref{tab:7years}所示。
+
+\begin{table}[htpb]
+  \centering
+  \caption{第七年模型预测结果与实际结果}%
+  \label{tab:7years}
+  \scriptsize
+  \csvautobooktabular{tab/conclusion2.csv}
+\end{table}
+
+通过对第七年结果的预测，我们认为模型的准确性比较高。
+
+\end{document}
+
