@@ -1,0 +1,94 @@
+\documentclass[../main]{subfiles}
+\begin{document}
+
+\chapter{选取样本}%
+\label{cha:sample}
+
+\section{数据采集}%
+\label{sec:gather}
+
+收集到的数据经过初步整理和汇总后，可以分为基础数据表~\ref{tab:basic}、日数据
+表~\ref{tab:day}和年数据表~\ref{tab:year}。以2011年作为第一年，以此类推。
+
+\begin{table}[htbp]
+  \centering
+  \caption{基础数据}%
+  \label{tab:basic}
+  \csvautobooktabular{tab/basic.csv}
+\end{table}
+
+\begin{table}[htbp]
+  \centering
+  \caption{日数据}%
+  \label{tab:day}
+  \tiny
+  \csvautobooktabular{tab/day.csv}
+\end{table}
+
+\begin{table}[htbp]
+  \centering
+  \caption{年数据}%
+  \label{tab:year}
+  \tiny
+  \setlength\tabcolsep{2pt}
+  \csvautobooktabular{tab/year.csv}
+\end{table}
+
+通过股票编号和年份就可以将对应的年数据和日数据整合到一张数据表内，由此便可以
+将原本分散在日数据表年数据表中的因子数据整合到一起进行分析。对于基本数据表中
+的数据，我们利用编码将每个行业映射为一组数字，由于股票为次新股对是否实施高送
+转的影响大\cite{邢小艳基于模式识别的“高送转”投资策略研究,
+王悦上市公司高送转的影响因素分析}，我们只从基本数据表中提取出次新股、所属行业
+属性并按相同的方法将其整合入数据表，以这个数据表作为我们的数据集。
+
+\section{插值}%
+\label{sec:value_lose_process}
+
+建立模型所使用的原始数据中存在着数据的缺失，因此必须对缺失值进行一定的处理已
+减小其对模型的影响。
+
+如果一个因子的数据缺失过多，就放弃使用这个因子，对于存在较多数据缺失的因子，
+我们将其滤去，因为缺失太多数据的因子数据难以确定其对实施高送转的影响。
+
+如果缺失值较少，就利用数据之间存在的关系采用拉格朗日插值法来表示缺失值$y(x)$
+：从原始数据中取出缺失值前后的共$k$个数据$y(x_j), j = 0, 2, \ldots, k - 1$，
+用根据定义~\ref{def:lagrage}得到的$L_k(x)$表示$y(x)$。
+
+\begin{definition}[拉格朗日插值法]%
+  \label{def:lagrage}
+  根据式~\ref{eq:lagrage}得到的$L_k(x)$。
+\end{definition}
+
+\begin{align}
+  \label{eq:lagrage}
+  L_k(x) = & \sum_{j = 0}^{k - 1} y(x_j) \ell_j(x)\\
+  \ell_j(x) = & \prod_{i\in \mathbb{Z}_n - \{i\}}\frac{x-x_i}{x_j-x_i}
+\end{align}
+
+\section{标准化}%
+\label{sec:standard}
+
+不同因子数据之间可能存在较大的数量级的差距。若将差距较大的数据一起进行建模时
+，他们之间的差距会对模型产生很大的影响。为了消除不同因子数据之间量纲的不同，
+我们对数据进行标准化。在模型构建的过程中。我们将会使用两种将数据标准化的方法
+并进行准确性的比对。
+
+\begin{definition}[0--1标准化]
+  通过式~\ref{eq:01}将$x$转换到$[0, 1]$之间的值$x'$。
+\end{definition}
+
+\begin{definition}[均值方差标准化]
+  通过式~\ref{eq:ed}将$x$转换到均值为0 ，方差为1的值$x''$。
+\end{definition}
+
+\begin{align}
+  \label{eq:01}
+  x' = & \frac{x-\min{X}}{\max{X} - \min{X}}\\
+  \label{eq:ed}
+  x'' = & \frac{x - \bar{x}}{\sigma}\\
+  \bar{x} = & \frac{1}{\lvert X\rvert}\sum_{x \in X} x\\
+  \sigma = & \sqrt{\frac{1}{\lvert X\rvert}\sum_{x \in X}{(x - \bar{x})}^2}
+\end{align}
+
+\end{document}
+
